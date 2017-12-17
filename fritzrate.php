@@ -23,6 +23,6 @@ $NewTotalBytesSent = $status2['NewTotalBytesSent'];
 $NewTotalBytesReceived	= $status2['NewTotalBytesReceived'];
 
 //print_r($status2);
-echo "trafficout:",$ByteSendRate," trafficin:",$ByteReceiveRate," totalout:",$NewTotalBytesSent," totalin:",$NewTotalBytesReceived,"";
+echo "trafficout:",$ByteSendRate," trafficin:",$ByteReceiveRate," totalout:",$NewTotalBytesSent/1024/1024," totalin:",$NewTotalBytesReceived/1024/1024,"";
 ?>
 

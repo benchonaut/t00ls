@@ -1,0 +1,22 @@
+#!/bin/sh
+
+[ "$ACTION" = ifup -o "$ACTION" = ifdown ] || exit 0
+
+
+if [ "$DEVICE" = "wlan0" -o "$INTERFACE" = "WAN" ]; then
+
+case "$ACTION" in
+    ifup)
+            # start process
+        ifconfig eth0.2 up
+	logger -t  wan2 "changing lan2 state according to $ACTION of $INTERFACE ( $DEVICE )"
+            ;;
+    ifdown)
+            # stop process
+        ifconfig eth0.2 down
+	logger -t  wan2 "changing lan2 state according to $ACTION of $INTERFACE ( $DEVICE )"
+            ;;
+esac
+
+fi
+

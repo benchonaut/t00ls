@@ -1,0 +1,18 @@
+/delay 10
+/routing filter remove [find action=passthrough chain=dynamic-in set-check-gateway=ping]
+/routing filter add action=passthrough chain=dynamic-in disabled=no set-check-gateway=ping
+:global detectRoute do={
+   :local gw;
+   :do {:set gw [/ip dhcp-client get [find interface=$if ] gateway ];} on-error={ :set gw [/ip route get [:pick [find dst-address=0.0.0.0/0 gateway-status~"$if\$"  ] ] gateway]};
+   :return $gw
+   }
+
+/ip route remove [find dst-address="4.2.2.1/32"]
+/ip route add dst-address="4.2.2.1/32" gateway=[:put [$detectRoute if="wan1"]]
+/ip route remove [find dst-address="4.2.2.2/32"]
+/ip route add dst-address="4.2.2.2/32" gateway=[:put [$detectRoute if="wan2"]]
+/tool netwatch remove [find comment="wan1"]
+/tool netwatch add interval="00:00:01" comment="wan1" host="4.2.2.1" down-script="/ip route remove [find distance=2]" up-script="/ip dhcp-client release [/ip dhcp-client find interface=wan1];/ip dhcp-client renew [/ip dhcp-client find interface=wan1];"
+/tool netwatch remove [find comment="wan2"]
+/tool netwatch add interval="00:00:01" comment="wan2" host="4.2.2.2" down-script="/ip route set [find distance=4] disabled=yes" up-script="/ip route set [find distance=4] disabled=no"
+

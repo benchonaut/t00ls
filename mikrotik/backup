@@ -1,0 +1,2 @@
+/export file=Realm-Mikrotik1.rsc verbose
+/system backup save name=Realm-Mikrotik1 dont-encrypt=yes

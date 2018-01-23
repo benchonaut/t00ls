@@ -1,0 +1,1 @@
+ssh root@$1 -p $2 'tar cvz /etc /root/ /www' >/tmp/OpenWRT-BACKUP-$1.tgz

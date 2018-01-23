@@ -12,17 +12,25 @@ $client = new SoapClient(
 
 $status = $client->GetCommonLinkProperties();
 $status2 = $client->GetAddonInfos();
-// print_r($status);
-// print_r($status2);
+
+print_r($status);
+ print_r($status2);
+
 // Bytes in Bits umrechnen (Ermittelte Werte * 8)
-$ByteSendRate      = $status2['NewByteSendRate'];
-$ByteSendRateBIT      = $status2['NewByteSendRate']*8;
-$ByteReceiveRate   = $status2['NewByteReceiveRate'];
-$ByteReceiveRateBIT   = $status2['NewByteReceiveRate']*8;
 $NewTotalBytesSent = $status2['NewTotalBytesSent'];
 $NewTotalBytesReceived	= $status2['NewTotalBytesReceived'];
 
-//print_r($status2);
-echo "trafficout:",$ByteSendRate," trafficin:",$ByteReceiveRate," totalout:",$NewTotalBytesSent/1024/1024," totalin:",$NewTotalBytesReceived/1024/1024,"";
+$ByteSendRate      = $status2['NewByteSendRate'];
+$ByteReceiveRate   = $status2['NewByteReceiveRate'];
+$ByteSendRateBIT      = $status2['NewByteSendRate']*8;
+$ByteReceiveRateBIT   = $status2['NewByteReceiveRate']*8;
+
+$UpstreamBIT = $status['NewLayer1UpstreamMaxBitRate']*10/1024;
+$Upstream = $UpstreamBIT/8;
+$DownstreamBIT = $status['NewLayer1DownstreamMaxBitRate']*10/1024;
+$Downstream = $DownstreamBIT/8;
+
+//echo "trafficout:",$ByteSendRate," trafficin:",$ByteReceiveRate," totalout:",$NewTotalBytesSent/1024/1024," totalin:",$NewTotalBytesReceived/1024/1024,"";
+echo "trafficout:",$ByteSendRate," trafficin:",$ByteReceiveRate," totalout:",$NewTotalBytesSent," totalin:",$NewTotalBytesReceived," loadUp:",$DownstreamBIT/$ByteReceiveRateBIT," loadDown:",$UpstreamBIT/$ByteSendRateBIT;
 ?>
 

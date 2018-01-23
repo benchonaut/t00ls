@@ -1,0 +1,20 @@
+#!/bin/sh
+hexencode() { read string;len=$(echo -n "$string"|wc -c) ; echo -n "$string"|hexdump -v -e $len'/1 "%02x:""\n"' ; } ; 
+hexdecode() { while read -n2 in;read -n1 dump;do printf "\x$in";done ; } ;
+echo 
+echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head><title>WIFI client</title>
+</head>
+<body>
+<h3> Join WPA2 Network
+<img src="/luci-static/resources/icons/wifi_big_disabled.png"><img src="/luci-static/resources/icons/wifi_big.png"></h3><br>
+<form method="POST" action="wifijoin">
+<label for="passphrase">Passphrase: <input id="passphrase" name="passphrase" type="password" autocomplete="new-password"> </label>
+<button id="Join" >Join Selected Network</button><br>
+<p><input type="checkbox" name="anybss">Join any router (Empty BSSID)<br>
+</p>
+<label>
+    <select name="wifi" size="23" >'
+/www/cgi-bin/wifi/wifiscan|while read a;do echo '<option value="'$(echo $a|cut -d" " -f5)@$(echo $a|cut -d" " -f6-|hexencode)'" > '"${a/ Quality:/}"'</option> ';done
+
+echo '</select> </label></form>Current state:<br>'$(/usr/bin/iwinfo|sed 's/$/<br>/g')'</body></html>'
+

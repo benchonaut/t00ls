@@ -1,0 +1,43 @@
+#!/bin/sh
+
+hexencode() { read string;len=$(echo -n "$string"|wc -c) ; echo -n "$string"|hexdump -v -e $len'/1 "%02x:""\n"' ; } ; 
+hexdecode() { while read -n2 in;read -n1 dump;do printf "\x$in";done ; } ;
+
+echo
+echo '
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="refresh" content="6; URL=wifi" />
+</head>
+<body style="background-color: white">'
+
+
+read -t3 POST                                                
+if [ -n "$POST" ]; then                                      
+        phrase=$(echo $POST|sed 's/&/\n/g'|grep ^passphrase);
+        phrase=${phrase/*=/}                             
+        wistring=$(echo $POST|sed 's/&/\n/g'|grep ^wifi);
+        wistring=${wistring/*=/};   
+        wistring=${wistring//%40/@};          
+	wistring=${wistring//%3A/:};          
+	SSID=$(echo ${wistring/*@/}|hexdecode)
+	if [ -n "$SSID" ];	then
+		echo SSID $SSID    "<br>"
+		ANYROUTER=$(echo $POST|sed 's/&/\n/g'|grep "anybss=on")
+		if [ -n "$ANYROUTER" ];	
+					then 	echo ACCEPTING any BSSID"<br>";uci set wireless.@wifi-iface[0].bssid="";
+					else 	BSSID=${wistring/@*/};echo BSSID $BSSID    "<br>";uci set wireless.@wifi-iface[0].bssid="$BSSID";
+		fi
+		echo "PASSPHRASE(hexcoded)" $(echo $phrase|hexencode) "<br>";uci set wireless.@wifi-iface[0].key="$phrase";
+		uci commit ; wifi 2>&1 >/dev/null 		                
+	else
+		echo "ERROR:NO SSID GIVEN ..SELECT ONE PLEASE<br>"
+	fi
+else
+		echo "NO POST NO LUCK"
+fi
+
+echo 'Redirecting after 6 seconds to <a style="color: black; font-family: arial, helvetica, sans-serif;" href="wifi">WIFI Configuration Interface</a>'
+#echo '<br>'"$POST"'<br>';#DEBUG
+echo "</body></html>"

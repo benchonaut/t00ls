@@ -3,3 +3,6 @@ _ssh_pubkey_authcmd() { echo echo $(cat .ssh/id_rsa.pub |cut -d" " -f1-2) "> ~/.
 _sshfs_arcfour_nocomp() { test -d $s || mkdir -p $2 ; sshfs -o Ciphers=arcfour,Compression=no,auto_cache $1 $2 ; } ;
 _last() { last -an400 |sed 's/^\([a-zA-Z0-9]\)[a-zA-Z0-9]\+/\1***/g;s/ \+/ /g;s/\t/ /g;s/mux/µ/g' ; } ;
 _lastn() { last -adn400 |sed 's/^\([a-zA-Z0-9]\)[a-zA-Z0-9]\+/\1***/g;s/ \+/ /g;s/\t/ /g;s/mux/µ/g' ; } ;
+_ssl_valid_in_future_seconds() { openssl x509 -checkend $1 -noout -in "$2" ; } ; #86400 seconds for one day
+_ssl_enddate() { printf '%s: %s\n' "$(date --date="$(openssl x509 -enddate -noout -in "$1"|cut -d= -f 2)" --iso-8601)" "$1"  ; } ; 
+ 

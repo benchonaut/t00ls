@@ -7,3 +7,6 @@
 [submodule "mail/imapsync"]
 	path = mail/imapsync
 	url = https://github.com/imapsync/imapsync.git
+[submodule "mail/IMAP-dedup"]
+	path = mail/IMAP-dedup
+	url = https://github.com/quentinsf/IMAPdedup.git

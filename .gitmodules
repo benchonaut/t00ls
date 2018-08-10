@@ -4,3 +4,6 @@
 [submodule "picoinflux"]
 	path = picoinflux
 	url = https://github.com/TheFoundation/picoinflux.git
+[submodule "mail/imapsync"]
+	path = mail/imapsync
+	url = https://github.com/imapsync/imapsync.git

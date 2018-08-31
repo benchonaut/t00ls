@@ -13,3 +13,9 @@
 [submodule "worldmap"]
 	path = worldmap
 	url = https://github.com/benchonaut/worldmap.git
+[submodule "8b58803d3eff481d57a42a159773a8d2"]
+	path = 8b58803d3eff481d57a42a159773a8d2
+	url = https://gist.github.com/8b58803d3eff481d57a42a159773a8d2.git
+[submodule "ssl-cert-info"]
+	path = ssl-cert-info
+	url = https://gist.github.com/8b58803d3eff481d57a42a159773a8d2.git

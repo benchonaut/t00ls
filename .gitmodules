@@ -10,3 +10,6 @@
 [submodule "mail/IMAP-dedup"]
 	path = mail/IMAP-dedup
 	url = https://github.com/quentinsf/IMAPdedup.git
+[submodule "worldmap"]
+	path = worldmap
+	url = https://github.com/benchonaut/worldmap.git

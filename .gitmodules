@@ -19,3 +19,6 @@
 [submodule "ssl-cert-info"]
 	path = ssl-cert-info
 	url = https://gist.github.com/8b58803d3eff481d57a42a159773a8d2.git
+[submodule "mail/vmail_utils"]
+	path = mail/vmail_utils
+	url = https://github.com/benchonaut/vmail_utils.git

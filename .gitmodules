@@ -1,6 +1,3 @@
-[submodule "doc-links"]
-	path = doc-links
-	url = https://gist.github.com/d89211607a5d6df756b376904fa44e47.git
 [submodule "picoinflux"]
 	path = picoinflux
 	url = https://github.com/TheFoundation/picoinflux.git

@@ -26,15 +26,15 @@ $DownstreamMByte = $DownstreamMBit/8;
 
 
 // Bytes in Bits umrechnen (Ermittelte Werte * 8)
-$NewTotalBytesSent = $status2['NewTotalBytesSent']*8;
-$NewTotalBytesReceived	= $status2['NewTotalBytesReceived']*8;
+$NewTotalMBytesSent = $status2['NewTotalBytesSent']*8/1024/1024;
+$NewTotalMBytesReceived	= $status2['NewTotalBytesReceived']*8/1024/1024;
 
 $ByteSendRate      = $status2['NewByteSendRate'];
 $ByteReceiveRate   = $status2['NewByteReceiveRate'];
-$MByteSendRate      = $status2['NewByteSendRate']/1000/1000;
-$MByteReceiveRate   = $status2['NewByteReceiveRate']/1000/1000;
+$MByteSendRate      = $status2['NewByteSendRate']/1000/100;
+$MByteReceiveRate   = $status2['NewByteReceiveRate']/1000/100;
 
 
-echo "trafficout:",$MByteSendRate," trafficin:",$MByteReceiveRate," totalout:",$NewTotalBytesSent," totalin:",$NewTotalBytesReceived," loadUp:",$DownstreamMByte/($MByteReceiveRate*8)," loadDown:",$UpstreamMByte/($MByteSendRate*8);
+echo "trafficout:",$MByteSendRate,"\ntrafficin:",$MByteReceiveRate,"\ntotalout:",$NewTotalMBytesSent,"\ntotalin:",$NewTotalMBytesReceived,"\nloadUp:",$MByteSendRate/$UpstreamMBit*100,"\nloadDown:",$MByteReceiveRate/$DownstreamMBit*100,"\nstreamUp:",$UpstreamMBit,"\nstreamDown:",$DownstreamMBit;
 ?>
 

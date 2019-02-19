@@ -4,6 +4,8 @@ _ssh_pubkey_authcmd() { echo echo $(cat .ssh/id_rsa.pub |cut -d" " -f1-2) "> ~/.
 _sshfs_arcfour_nocomp() { test -d $s || mkdir -p $2 ; sshfs -o Ciphers=arcfour,Compression=no,auto_cache $1 $2 ; } ;
 _last() { last -an400 |sed 's/^\([a-zA-Z0-9]\)[a-zA-Z0-9]\+/\1***/g;s/ \+/ /g;s/\t/ /g;s/mux/µ/g' ; } ;
 _lastn() { last -adn400 |sed 's/^\([a-zA-Z0-9]\)[a-zA-Z0-9]\+/\1***/g;s/ \+/ /g;s/\t/ /g;s/mux/µ/g' ; } ;
+_pico_netmon() { outbuffer=0;reset;while true;do clear;echo "$outbuffer";outbuffer=$( echo "::_pico_netmon";(find /proc /sys/ 2>/dev/null|grep "[tr]x_bytes" |grep -v "net/lo/" | while read a ;do echo $(echo $a |sed "s/.\+net\///g;s/bytes/Mbytes/g")":"$(expr $(cat $a) "/" 1024 "/" 1024);done|sort));sleep 1 ;done  ; };
+
 _ssl_pem_valid_in_future_seconds() { openssl x509 -checkend $2 -noout -in "$1" ; } ; #86400 seconds for one day
 _ssl_pem_enddate() { printf '%s: %s\n' "$(date --date="$(openssl x509 -enddate -noout -in "$1"|cut -d= -f 2)" --iso-8601)" "$1"  ; } ; 
 _ssl_host_valid_in_future_seconds() { echo | openssl s_client -connect "$1" 2>/dev/null | openssl x509 -checkend $2 -noout  ; } ; #86400 seconds for one day
@@ -12,6 +14,5 @@ _ssl_smtp_valid_in_future_seconds() { echo |openssl s_client -connect "$1" -star
 _ssl_smtp_enddate() { printf '%s: %s\n' "$(date --date="$( echo | openssl s_client -connect "$1" -starttls smtp 2>/dev/null | openssl x509 -enddate -noout |cut -d= -f 2)" --iso-8601)" "$1"  ; } ; 
 _ssl_host_enddate_days() {    
 end="$(date +%Y-%m-%d --date="$( echo | openssl s_client -connect "$1" 2>/dev/null |openssl x509 -enddate -noout |cut -d= -f 2)" --iso-8601)" ;
-date_diff=$(( ($(date -d "$end UTC" +%s) - $(date -d "$(date +%Y-%m-%d) UTC" +%s) )/(60*60*24) ));printf '%s: %s' "$date_diff" "$1" 
-}
+date_diff=$(( ($(date -d "$end UTC" +%s) - $(date -d "$(date +%Y-%m-%d) UTC" +%s) )/(60*60*24) ));printf '%s: %s' "$date_diff" "$1" ; } ;
 

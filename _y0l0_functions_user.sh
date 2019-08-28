@@ -5,6 +5,7 @@ _sshfs_arcfour_nocomp() { test -d $s || mkdir -p $2 ; sshfs -o Ciphers=arcfour,C
 _last() { last -an400 |sed 's/^\([a-zA-Z0-9]\)[a-zA-Z0-9]\+/\1***/g;s/ \+/ /g;s/\t/ /g;s/mux/µ/g' ; } ;
 _lastn() { last -adn400 |sed 's/^\([a-zA-Z0-9]\)[a-zA-Z0-9]\+/\1***/g;s/ \+/ /g;s/\t/ /g;s/mux/µ/g' ; } ;
 _pico_netmon() { outbuffer=0;reset;while true;do clear;echo "$outbuffer";outbuffer=$( echo "::_pico_netmon";(find /proc /sys/ 2>/dev/null|grep "[tr]x_bytes" |grep -v "net/lo/" | while read a ;do echo $(echo $a |sed "s/.\+net\///g;s/bytes/Mbytes/g")":"$(expr $(cat $a) "/" 1024 "/" 1024);done|sort));sleep 1 ;done  ; };
+_wait4file() { wait=0;while ( ! test -e "$1" );do echo -en "\r++"WAITING" for $1 since: "$wait" seconds";sleep 2;let wait+=2;done;echo ; } ;
 
 _ssl_pem_valid_in_future_seconds() { openssl x509 -checkend $2 -noout -in "$1" ; } ; #86400 seconds for one day
 _ssl_pem_enddate() { printf '%s: %s\n' "$(date --date="$(openssl x509 -enddate -noout -in "$1"|cut -d= -f 2)" --iso-8601)" "$1"  ; } ; 
@@ -15,4 +16,7 @@ _ssl_smtp_enddate() { printf '%s: %s\n' "$(date --date="$( echo | openssl s_clie
 _ssl_host_enddate_days() {    
 end="$(date +%Y-%m-%d --date="$( echo | openssl s_client -connect "$1" 2>/dev/null |openssl x509 -enddate -noout |cut -d= -f 2)" --iso-8601)" ;
 date_diff=$(( ($(date -d "$end UTC" +%s) - $(date -d "$(date +%Y-%m-%d) UTC" +%s) )/(60*60*24) ));printf '%s: %s' "$date_diff" "$1" ; } ;
+
+
+_loadtest_railgun_curl() { echo "TARGET URL:";read URI;echo "number of requests to fork";read rounds;T="$(date +%s)" ;(for i in $( seq 1 $rounds);do (TIMEFORMAT='%3lR' time -p curl -s "$URI" -o /dev/null  2>&1|grep real |tr -d '\n' |sed 's/real/time:/g';echo -n " :: "id $i" ::   | " )  & sleep 0.001;  done;wait );T="$(($(date +%s)-T))";echo ;echo "Time in seconds: ${T}" ; } ;
 

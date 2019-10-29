@@ -13,8 +13,8 @@ $client = new SoapClient(
 $status = $client->GetCommonLinkProperties();
 $status2 = $client->GetAddonInfos();
 
-//print_r($status);
-//print_r($status2);
+print_r($status);
+print_r($status2);
 
 $UpstreamBit = $status['NewLayer1UpstreamMaxBitRate'];
 $UpstreamMBit = $UpstreamBit/1000/1000;

@@ -19,3 +19,6 @@
 [submodule "doc-links"]
 	path = doc-links
 	url = https://gist.github.com/benchonaut/d89211607a5d6df756b376904fa44e47
+[submodule "git-autosave-autocommit"]
+	path = git-autosave-autocommit
+	url = https://github.com/TheFoundation/git-autosave-autocommit.git

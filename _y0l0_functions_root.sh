@@ -37,3 +37,4 @@ _docker_this_mysql_real() { docker exec -t $(basename $(pwd)) mysql "$@" ; } ;
 _docker_this_mysql_console() { docker exec -t $(basename $(pwd)) mysql "$@" ; } ;
 
 
+_get_gocryptfs_amd64() { cd /usr/bin;wget -O-  -c https://github.com/rfjakob/gocryptfs/releases/download/v1.7.1/gocryptfs_v1.7.1_linux-static_amd64.tar.gz | tar xvz -C /usr/bin  && ( test -d /usr/share/man/man1/ || mkdir /usr/share/man/man1/ -p; mv /usr/Bin/gocryptfs.1 /usr/share/man/man1/ & chmod +x /usr/bin/gocryptfs )  ; } ;

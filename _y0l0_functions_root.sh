@@ -38,3 +38,6 @@ _docker_this_mysql_console() { docker exec -t $(basename $(pwd)) mysql "$@" ; } 
 
 
 _get_gocryptfs_amd64() { cd /usr/bin;wget -O-  -c https://github.com/rfjakob/gocryptfs/releases/download/v1.7.1/gocryptfs_v1.7.1_linux-static_amd64.tar.gz | tar xvz -C /usr/bin  && ( test -d /usr/share/man/man1/ || mkdir /usr/share/man/man1/ -p; mv /usr/Bin/gocryptfs.1 /usr/share/man/man1/ & chmod +x /usr/bin/gocryptfs )  ; } ;
+
+_get_basics_workstation_ubuntu() { sudo apt-get install curl mtr-tiny lftp sshfs lft vnstat byobu iotop socat git mosh qemu-utils cifs-utils xfsprogs ext4magic testdisk reiserfsprogs zfsutils-linux liblz4-tool p7zip-full unrar duplicity rsync xnbd-client qemu-system-x86 lm-sensors  curl mtr-tiny lftp sshfs lft vnstat byobu iotop socat git mosh qemu-utils cifs-utils xfsprogs ext4magic testdisk reiserfsprogs zfsutils-linux liblz4-tool p7zip-full unrar duplicity rsync xnbd-client qemu-system-x86 lm-sensors cryptsetup-bin lvm2 mosh pv ; } ;
+_get_basics_workstation_alpine() { apk add  openssh lftp mtr sshfs nmap openvpn vnstat  byobu  mtools e2fsprogs-extra xfsprogs bash pv iotop smartmontools sysstat htop bmon ddrescue cifs-utils samba-client  mosh ; } ;

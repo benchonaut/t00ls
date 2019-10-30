@@ -14,7 +14,8 @@ _ssl_host_enddate() { printf '%s: %s\n' "$(date --date="$( echo | openssl s_clie
 _ssl_smtp_valid_in_future_seconds() { echo |openssl s_client -connect "$1" -starttls smtp 2>/dev/null | openssl x509 -checkend $2 ; } ; #86400 seconds for one day
 _ssl_smtp_enddate() { printf '%s: %s\n' "$(date --date="$( echo | openssl s_client -connect "$1" -starttls smtp 2>/dev/null | openssl x509 -enddate -noout |cut -d= -f 2)" --iso-8601)" "$1"  ; } ; 
 _ssl_host_enddate_days() {    
-end="$(date +%Y-%m-%d --date="$( echo | openssl s_client -connect "$1" 2>/dev/null |openssl x509 -enddate -noout |cut -d= -f 2)" --iso-8601)" ;
+end="$(date +%Y-%m-%d --date="$( echo | openssl s_client -connect "$1" 2>/dev/null |openssl x509 -enddate -noout |cut -d= -f 2)" )"
+# # --iso-8601)" ;
 date_diff=$(( ($(date -d "$end UTC" +%s) - $(date -d "$(date +%Y-%m-%d) UTC" +%s) )/(60*60*24) ));printf '%s: %s' "$date_diff" "$1" ; } ;
 
 
